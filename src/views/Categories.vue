@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Категории</h3>
+      <h3>{{ "Categories" | localize }}</h3>
     </div>
     <section>
       <Loader v-if="loading" />
@@ -14,7 +14,7 @@
           :key="categories.length + updateCount"
         />
         <p v-else class="center">
-          Вы не добавили ни одной категории
+          {{ "ErrorNoCategory" | localize }}
         </p>
       </div>
     </section>
@@ -25,6 +25,11 @@
 import CategoryAdd from "../components/CategoryAdd";
 import CategoryEdit from "../components/CategoryEdit";
 export default {
+  metaInfo() {
+    return {
+      title: this.$title("MenuCategories")
+    };
+  },
   name: "Categories",
   components: { CategoryEdit, CategoryAdd },
   data: () => ({

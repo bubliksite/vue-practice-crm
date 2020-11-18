@@ -3,7 +3,7 @@
     <Loader v-if="loading" />
     <div class="app-main-layout" v-else>
       <Navbar @click="isOpen = !isOpen" />
-      <Sidebar v-model="isOpen" />
+      <Sidebar v-model="isOpen" :key="locale" />
       <main class="app-content" :class="{ full: !isOpen }">
         <div class="app-page">
           <router-view />
@@ -22,6 +22,7 @@
 <script>
 import Navbar from "@/components/app/Navbar";
 import Sidebar from "@/components/app/Sidebar";
+import messages from "@/plugins/messages/messages";
 export default {
   name: "main-layout",
   data: () => ({
@@ -33,6 +34,23 @@ export default {
       await this.$store.dispatch("fetchInfo");
     }
     this.loading = false;
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    },
+    locale() {
+      return this.$store.getters.info.locale;
+    }
+  },
+  watch: {
+    error(fbError) {
+      console.log(fbError);
+      this.$error(messages[fbError.code] || "Что-то пошло не так");
+    }
+    // locale() {
+    //   console.log("Watching");
+    // }
   },
   components: {
     Navbar,

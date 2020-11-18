@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="onSubmit">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">{{ "MainTitle" | localize }}</span>
       <div class="input-field">
         <input
           id="email"
@@ -18,13 +18,13 @@
           class="helper-text invalid"
           v-if="$v.email.$dirty && !$v.email.required"
         >
-          Поле не должно быть пустым
+          {{ "ErrorNotEmpty" | localize }}
         </small>
         <small
           class="helper-text invalid"
           v-else-if="$v.email.$dirty && !$v.email.email"
         >
-          Введите корректный email
+          {{ "ErrorNotValid" | localize }}
         </small>
       </div>
       <div class="input-field">
@@ -38,12 +38,12 @@
               ($v.password.$dirty && !$v.password.minLength)
           }"
         />
-        <label for="password">Пароль</label>
+        <label for="password">{{ "Password" | localize }}</label>
         <small
           class="helper-text invalid"
           v-if="$v.password.$dirty && !$v.password.required"
         >
-          Поле не должно быть пустым
+          {{ "ErrorNotEmpty" | localize }}
         </small>
         <small
           class="helper-text invalid"
@@ -76,6 +76,11 @@ import { email, required, minLength } from "vuelidate/lib/validators";
 import messages from "../plugins/messages/messages";
 
 export default {
+  metaInfo() {
+    return {
+      title: this.$title("LoginPage")
+    };
+  },
   name: "login",
   data: () => ({
     email: "",
